@@ -17,6 +17,7 @@ export default function ActivityList({ activities, selectActivity, deleteActivit
         setTarget(e.currentTarget.name);
         deleteActivity(id);
     }
+    
     return (
         <Segment>
             <Item.Group devided>
