@@ -15,7 +15,7 @@ export default class ActivityStore {
     }
 
     loadActivities = async () => {
-        
+
         try {
             const activities = await agent.Activities.list();
             activities.forEach(activity => {
@@ -87,17 +87,17 @@ export default class ActivityStore {
         }
     }
 
-    deleteActivity=async(id:string)=>{
-        this.loading=true;
+    deleteActivity = async (id: string) => {
+        this.loading = true;
         try {
-            
+
             await agent.Activities.delete(id);
-            this.activities = [...this.activities.filter(a => a.id !==id)]; 
-            if(this.selectedActivity?.id===id) this.cancelSelectedActivity();
-            this.loading = false; 
+            this.activities = [...this.activities.filter(a => a.id !== id)];
+            if (this.selectedActivity?.id === id) this.cancelSelectedActivity();
+            this.loading = false;
         } catch (error) {
             console.log(error)
-            runInAction(()=>{
+            runInAction(() => {
                 this.loading = false;
             });
         }
