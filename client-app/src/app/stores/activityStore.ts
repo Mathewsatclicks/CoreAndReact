@@ -8,14 +8,14 @@ export default class ActivityStore {
     selectedActivity: Activity | undefined = undefined;
     editMode = false;
     loading = false;
-    loadingInitial = true;
+    loadingInitial = false;
 
     constructor() {
         makeAutoObservable(this);
     }
 
     loadActivities = async () => {
-
+        this.setinitlaLoading(true);
         try {
             const activities = await agent.Activities.list();
             activities.forEach(activity => {
@@ -29,25 +29,32 @@ export default class ActivityStore {
         }
     }
 
+    loadActivity = async (id: string) => {
+        let activity = this.activities.find(x => x.id === id);
+        if (activity) {
+            this.selectedActivity = activity;
+            return activity;
+        }
+        else {
+            this.setinitlaLoading(true);
+            try {
+                activity = await agent.Activities.details(id);
+                activity.date = activity.date.split('T')[0];
+                this.activities.push(activity);
+                runInAction(()=>{
+                    this.selectedActivity = activity;
+                })
+                this.setinitlaLoading(false);
+                return activity;
+            } catch (error) {
+                console.log(error);
+                this.setinitlaLoading(false);
+            }
+        }
+    }
+
     setinitlaLoading = (status: boolean) => {
         this.loadingInitial = status;
-    }
-
-    selectActivity = (id: string) => {
-        this.selectedActivity = this.activities.find(x => x.id === id);
-    }
-
-    cancelSelectedActivity = () => {
-        this.selectedActivity = undefined;
-    }
-
-    openForm = (id?: string) => {
-        id ? this.selectActivity(id) : this.cancelSelectedActivity();
-        this.editMode = true;
-    }
-
-    closeForm = () => {
-        this.editMode = false;
     }
 
     createActivity = async (activity: Activity) => {
@@ -93,7 +100,6 @@ export default class ActivityStore {
 
             await agent.Activities.delete(id);
             this.activities = [...this.activities.filter(a => a.id !== id)];
-            if (this.selectedActivity?.id === id) this.cancelSelectedActivity();
             this.loading = false;
         } catch (error) {
             console.log(error)
