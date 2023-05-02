@@ -1,4 +1,5 @@
-using API.Extensions; 
+using API.Extensions;
+using API.Middleware;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
 
@@ -10,6 +11,7 @@ builder.Services.AddControllers();
 builder.Services.AddApplicationservices(builder.Configuration);
 var app = builder.Build();
 
+app.UseMiddleware<ExceptionMiddleware>();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -27,19 +29,19 @@ app.MapControllers();
 
 
 //---------------------------------
-using var scope=app.Services.CreateScope(); 
-var services=scope.ServiceProvider;
+using var scope = app.Services.CreateScope();
+var services = scope.ServiceProvider;
 
 try
 {
-    var contecxt=services.GetRequiredService<DataContext>();
-     await contecxt.Database.MigrateAsync();
+    var contecxt = services.GetRequiredService<DataContext>();
+    await contecxt.Database.MigrateAsync();
     await Seed.SeedData(contecxt);
 }
 catch (System.Exception ex)
 {
-     var logger=services.GetRequiredService<ILogger<Program>>();
-     logger.LogError(ex,"Error occure during the migration");
+    var logger = services.GetRequiredService<ILogger<Program>>();
+    logger.LogError(ex, "Error occure during the migration");
 }
 
 app.Run();
