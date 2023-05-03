@@ -55,8 +55,7 @@ export default observer(function ActivityForm() {
         }
         else {
             updateAtivity(activity).then(() => navigate(`/activities/${activity.id}`));
-        }
-
+        } 
     }
 
 
