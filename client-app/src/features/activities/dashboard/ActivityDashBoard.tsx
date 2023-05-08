@@ -10,13 +10,13 @@ import ActivityFilters from "./ActivityFilters";
 export default observer(function ActivityDashboard() {
 
     const { activityStore } = useStore();
-    const { loadActivities, activities } = activityStore;
+    const { loadActivities, activityRegistry } = activityStore;
     useEffect(() => {
-        if (activities.length === 0)
+        if (activityRegistry.entries.length === 0)
             activityStore.loadActivities();
     }, [activityStore]);
 
-    if (activityStore.loadingInitial) return <LoadingComponent content='Loading...' />
+    if (activityStore.loadingInitial) return <LoadingComponent content='Loading Activities...' />
 
     return (
         <Grid>
