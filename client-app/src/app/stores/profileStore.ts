@@ -76,7 +76,7 @@ export default class ProfileStore {
                 }
                 this.loaidng = false;
             })
-            
+
         } catch (error) {
             console.log(error);
             runInAction(() => this.loaidng = false);
@@ -92,11 +92,29 @@ export default class ProfileStore {
                 if (this.profile) {
                     this.profile.photos = this.profile.photos?.filter(p => p.id !== photo.id);
                 }
-                this.loaidng=false;
+                this.loaidng = false;
             })
         } catch (error) {
             console.log(error);
             runInAction(() => this.loaidng = false)
+        }
+    }
+
+    updateProfile = async (profile: Partial<Profile>) => {
+        this.loaidng = true;
+        try {
+            await agent.Profiles.updateProfile(profile);
+            runInAction(() => {
+                if (profile.displayName && profile.displayName !==
+                    store.userStore.user?.displayName) {
+                    store.userStore.setDisplayName(profile.displayName);
+                }
+                this.profile = { ...this.profile, ...profile as Profile };
+                this.loaidng = false;
+            })
+        } catch (error) {
+            console.log(error);
+            runInAction(() => this.loaidng = false);
         }
     }
 }
