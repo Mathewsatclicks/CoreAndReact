@@ -48,19 +48,14 @@ export default observer(function ProfileActivities() {
                             >
                                 <Image
                                     src={`/assets/categoryImages/${activity.category}.jpg`}
-                                    style={{
-                                        minHeight: 100, objectFit:
-                                            'cover'
-                                    }}
+                                    style={{ minHeight: 100, objectFit: 'cover' }}
                                 />
                                 <Card.Content>
                                     <Card.Header
                                         textAlign='center'>{activity.title}</Card.Header>
                                     <Card.Meta textAlign='center'>
-                                        <div>{format(new Date(activity.date),
-                                            'do LLL')}</div>
-                                        <div>{format(new Date(activity.date),
-                                            'h:mm a')}</div>
+                                        <div>{format(new Date(activity.date), 'do LLL')}</div>
+                                        <div>{format(new Date(activity.date), 'h:mm a')}</div>
                                     </Card.Meta>
                                 </Card.Content>
                             </Card>

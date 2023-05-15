@@ -43,8 +43,17 @@ app.UseCors("CorsPolicy");
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+//To deployee the wwwroot 
+app.UseDefaultFiles();
+app.UseStaticFiles();
+//--------------------------------
+
+
 app.MapControllers();
 app.MapHub<ChatHub>("/chat");
+
+app.MapFallbackToController("Index","FallBack");
 
 
 //---------------------------------
