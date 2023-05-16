@@ -3,7 +3,7 @@ name: docker-push
 on:
 
  # --for run the workflow on demand
- workflow_dispatch: 
+  workflow_dispatch: 
   #-- for auto run
   # push:
   #   branches:
