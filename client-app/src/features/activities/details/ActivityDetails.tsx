@@ -13,12 +13,13 @@ import ActivityDetiledSideBar from "./ActivityDetailedSidebar";
 export default observer(function ActivityDetails() {
 
     const { activityStore } = useStore();
-    const { selectedActivity: activity, loadActivity, loadingInitial } = activityStore;
+    const { selectedActivity: activity, loadActivity, clearSelectedACtivity } = activityStore;
     const { id } = useParams();
 
     useEffect(() => {
         if (id) loadActivity(id);
-    }, [id, loadActivity]);
+        return () => clearSelectedACtivity(); //to clear selected acitivity to avoid signal R error while changing the activity
+    }, [id, loadActivity, clearSelectedACtivity]);
 
     if (!activity) return <LoadingComponent />;
     return (
@@ -26,7 +27,7 @@ export default observer(function ActivityDetails() {
             <Grid.Column width={10}>
                 <ActivityDetailedHeader activity={activity} />
                 <ActivityDetiledInfo activity={activity} />
-                <ActivityDetiledChat />
+                <ActivityDetiledChat activityId={activity.id} />
             </Grid.Column>
             <Grid.Column width={6}>
                 <ActivityDetiledSideBar activity={activity} />
