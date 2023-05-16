@@ -37,6 +37,8 @@ WORKDIR /app
 COPY --from=build-env /app/out .
 ENTRYPOINT ["dotnet","API.dll"]
 
+
+# mathewpothanamuzhiyil is the dockerhub name, reactivities is the image name
 # after defiining above docker image dependecy projects and dotnet
 # tp build image  Termianl > docker build -t mathewpothanamuzhiyil/reactivities .
 
@@ -45,5 +47,5 @@ ENTRYPOINT ["dotnet","API.dll"]
 
 
 #docker hub login, Terminal >  docker login
-#docker login -u "mathewpothanamuzhiyil" -p "@Myjackfruit1" docker.io
+#docker login -u "mathewpothanamuzhiyil" -p "@Mjf1" docker.io
 #push the docker image to docker hub : Terminal > docker push mathewpothanamuzhiyil/reactivities:latest
