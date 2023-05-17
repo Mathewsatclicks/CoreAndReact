@@ -38,7 +38,7 @@ COPY --from=build-env /app/out .
 ENTRYPOINT ["dotnet","API.dll"]
 
 # after defiining above docker image dependecy projects and dotnet
-# tp build image  Termianl > docker build -t mathewpothanamuzhiyil/reactivities .
+# to build image  Termianl > docker build -t mathewpothanamuzhiyil/reactivities .
 
 #run the docker and remove the build 
 #Terminal>  docker run --rm -it -p 8080:80 mathewpothanamuzhiyil/reactivities
